@@ -34,6 +34,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}">About</a>
                     </li>
+                    <form class="d-flex mx-auto" action="{% url 'search_results' %}" method="get">
+                        <input class="form-control me-2" type="search" name="q" placeholder="Search"
+                            aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
                     {% if user.is_authenticated %}
                     <li class="nav-item ms-auto">
                         <a class="nav-link btn btn-danger fw-bold" href="{% url 'account_logout' %}">Log Out</a>
@@ -46,6 +51,7 @@
                         <a class="nav-link btn btn-danger fw-bold" href="{% url 'account_signup' %}">Sign Up</a>
                     </li>
                     {% endif %}
+
                 </ul>
             </div>
         </div>
