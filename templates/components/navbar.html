@@ -1,0 +1,58 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex" href="{% url 'home' %}">
+            <img src="{% static 'images/books-logo.png' %}" alt="Logo bookstore" width="50" height="48"
+                class="d-inline-block align-text-top">
+            <h1 class="fs-1">Bookstore</h1>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end bg-black" tabindex="-1" id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title text-white" id="offcanvasNavbarLabel">Menu</h5>
+                <button type="button" class="btn-close bg-white" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <form class="d-flex w-100" style="max-width: 30em;" action="{% url 'search_results' %}" method="get">
+                    <input class="form-control me-2" type="search" name="q" placeholder="Search by title or author"
+                        aria-label="Search">
+                    <button class="btn btn-success" type="submit">Search</button>
+                </form>
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'book_list' %}">Books</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'about' %}">About</a>
+                    </li>
+                    <li class="nav-item dropdown ms-4">
+                        <a class="nav-link dropdown-toggle border border-primary bg-primary rounded fw-bold" href="#"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            👪Account
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg-end">
+                            {% if user.is_authenticated %}
+                            <li class="bg-danger border border-danger">
+                                <a class="dropdown-item fw-bold py-2" href="{% url 'account_logout' %}">Log Out</a>
+                            </li>
+                            {% else %}
+                            <li class="bg-success border border-success">
+                                <a class="dropdown-item fw-bold py-2" href="{% url 'account_login' %}">Log In</a>
+                            </li>
+                            <li class="bg-danger border border-danger">
+                                <a class="dropdown-item fw-bold py-2" href="{% url 'account_signup' %}">Sign Up</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
