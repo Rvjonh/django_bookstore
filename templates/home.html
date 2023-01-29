@@ -6,6 +6,74 @@ Home
 {% endblock title %}
 
 {% block content %}
-<h1>This is our home page.</h1>
-<img class="bookcover" src="{% static 'images/dfp.jpg' %}">
+<div class="mt-4 w-100 d-flex flex-column justify-content-start align-items-center">
+    <div class="bookstore-landscape d-flex flex-column justify-content-center align-items-center">
+        <h2 class="border border-secondary bg-body-secondary p-4">Book and Reviews</h2>
+        <p class="text-white bg-dark p-2 border-bottom border-danger">For many books and many reviews</p>
+        <p class="text-white bg-dark p-2 border-bottom border-danger">From people like you</p>
+    </div>
+
+    <div class="container d-md-flex flex-column flex-md-row my-4">
+        <section class="w-100 d-flex flex-column mb-4 w-auto" style="max-width: 40em;">
+            <h2 class="p-3 bg-dark bg-opacity-10 border border-4 border-secondary">
+                Week's Selection Book
+            </h2>
+            <picture class="w-50 align-self-center">
+                <img src="{% static '/images/dfp.jpg' %}" class="img-fluid img-thumbnail"
+                    alt="django for professionals book">
+            </picture>
+            <blockquote class="blockquote">
+                <p>William Vincent</p>
+            </blockquote>
+            <p class="fs-5 text-center">
+                Django for Professionals takes your web development skills to the next level, teaching you how to build
+                production-ready websites with Python and Django.
+            </p>
+            <div class="box d-flex justify-content-center">
+                <a class="fs-5 fw-bold border border-dark border-4 btn btn-warning p-2 me-2" target="_blank"
+                    href="https://app.gumroad.com/checkout">Buy
+                    Now (39$)</a>
+                <a class="fs-5 fw-bold border border-dark border-4 btn btn-info p-2 ms-2" target="_blank"
+                    href="https://djangoforprofessionals.com/introduction/">Read a
+                    Sample</a>
+            </div>
+        </section>
+        <section class="w-100 position-relative d-flex flex-column justify-content-start align-items-center">
+            <div class="position-sticky neumorphism-border d-flex flex-column text-center p-4 mx-6" style="top: 10em;">
+                <h2>Keep In Touch</h2>
+                <p>With you account</p>
+                <div class="border border-dark d-flex flex-column justify-content-start align-items-center py-4">
+                    {% if not user.is_authenticated %}
+                    <a class="btn btn-success fs-5 fw-bold" href="{% url 'account_login' %}">Log In</a>
+                    <p class="m-0 py-2">-- Or --</p>
+                    <a class="btn btn-danger fs-5 fw-bold" href="{% url 'account_signup' %}">Sign Up</a>
+                    {% else %}
+                    <p class="text-center">You're currently using</p>
+                    <p class="fs-3">{{ user.username|title }}</p>
+                    <p class="text-center">Account</p>
+                    <p>✨Welcome to Bookstore✨</p>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <section class="my-5 container border p-4">
+        <h2>Latest Books✨</h2>
+        <div class="d-flex flex-wrap justify-content-around align-items-start">
+            {% for book in last_5_books %}
+            <picture class="w-20" title="{{ book.title }}">
+                {% if book.cover.url %}
+                <img class="img img-thumbnail" src="{{ book.cover.url }}" alt="{{ book.title }}" width="180"
+                    height="160">
+                {% else %}
+                <div class="w-100 bg-dark">
+                    <p class="text-white">{{ book.title }}</p>
+                </div>
+                {% endif %}
+            </picture>
+            {% endfor %}
+        </div>
+    </section>
+</div>
 {% endblock content %}

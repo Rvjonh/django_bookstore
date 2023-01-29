@@ -1,9 +1,21 @@
 body {
-    min-height: 75rem;
-    padding-top: 4.5rem;
+    min-height: 100vh;
+    margin-top: 5em;
+    display: flex;
+    flex-direction: column;
 }
 
-img.bookcover {
-    height: 300px;
-    width: auto;
+.bookstore-landscape {
+    width: 100%;
+    min-height: 20em;
+    background-image: url('/static/images/bookstore-landscape.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.neumorphism-border {
+    border-radius: 9px;
+    background: #f2f2f2;
+    box-shadow: 10px 10px 20px #cbcbcb,
+        -10px -10px 20px #ffffff;
 }
