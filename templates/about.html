@@ -1,9 +1,154 @@
 {% extends "_base.html" %}
+{% load static %}
 
 {% block title %}
 About
 {% endblock title %}
 
 {% block content %}
-<h1>About Page</h1>
+<div class="w-100 d-flex flex-column justify-content-start">
+
+    <div class="container">
+        <h2 class="p-4">About This Website</h2>
+    </div>
+
+    <div class="mt-4 mx-auto w-75 d-flex flex-column flex-sm-row" style="max-width:50em;">
+        <div class="w-100">
+            <p>ONLINE REVIEWS</p>
+            <h3>Read <b>Everyday</b></h3>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+                dolore
+                magna aliqua.
+            </p>
+            <a class="btn btn-dark rounded-0 fw-bold" href="{% url 'book_list' %}" aria-label="check books">
+                Check Books
+            </a>
+        </div>
+        <div class="w-100 d-flex justify-content-center">
+            <img class="w-75" src="{% static 'images/about/person-reading.png' %}" alt="person reading">
+        </div>
+    </div>
+
+    <div class="w-100 py-5 bg-dark" style="min-height: 35em;">
+
+        <div class="mx-auto d-flex flex-column flex-sm-row" style="max-width:50em;">
+
+            <div class="w-100 position-relative d-flex justify-content-center" style="height: 20em;">
+                <div class="w-75 rounded-circle bg-primary rounded-5 position-absolute"
+                    style="height: 90%; top: 12%; left: 20%;">
+                </div>
+                <img class="w-75 rounded-circle position-absolute" src="{% static 'images/about/person-smiling.jpg' %}"
+                    alt="person reading">
+                <img class="w-25 position-absolute start-0" style="bottom: 0em;"
+                    src="{% static 'images/books-logo.png' %}" alt="bookstore logo">
+            </div>
+
+            <div class="w-100 text-white px-4 ">
+                <p>Get access to high quality reviews!</p>
+                <h3>Join online community <b>today</b></h3>
+                <p>
+                    Etiam velit purus, vehicula quis imperdiet dignissim, convallis vitae nisl. Nullam facilisi.
+                    Pellentesque non pulvinar justo. Nullam eget neque ut tellus ornare ullamcorper ulla ambco mattis
+                    for nulla glavrida egesed!
+                </p>
+                <a class="btn btn-light rounded-0 fw-bold" href="{% url 'account_signup' %}" aria-label="check books">
+                    Sign up for <b>Free</b>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-100 py-5 bg-primary" style="min-height: 30em;">
+
+        <div class="mx-auto d-flex flex-column flex-sm-row" style="max-width:50em;">
+
+            <div class="w-100 p-4 text-white">
+                <p>Learn to enjoy every minute of your reading</p>
+                <h3>Train Your Brain <b>Today!</b></h3>
+                <p>
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in ​reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                    nulla pariatur.
+                </p>
+                <a class="btn btn-outline-light rounded-0 fw-bold" href="{% url 'book_list' %}"
+                    aria-label="check books">
+                    Check Books
+                </a>
+            </div>
+
+            <div class="w-100 position-relative d-flex justify-content-center align-items-center" style="height: 15em;">
+
+                <img class="w-75 position-absolute" src="{% static 'images/about/person-with-book.png' %}"
+                    alt="person reading 2">
+
+                <img class=" w-25 position-absolute" style="top: 0em; right: 0em;"
+                    src="{% static 'images/books-logo.png' %}" alt="bookstore logo">
+
+                <img class="w-25 position-absolute end-0" style="bottom: 0em; left: 0em;"
+                    src="{% static 'images/books-logo.png' %}" alt="bookstore logo">
+            </div>
+        </div>
+    </div>
+
+    <div class="w-100 py-5 d-flex flex-column justify-content-start align-items-center overflow-hidden"
+        style="min-height: 35em;">
+        <h3 class="fs-1 text-center z-2 bg-white p-2"><strong>Innovations</strong> in Online Reviews</h3>
+
+        <div class="position-relative" style="max-width: 70em;">
+
+            <div class="d-flex flex-column flex-sm-row position-relative z-2">
+                <div class="w-100 container">
+                    <div class="row px-0">
+                        <div class="col px-0">
+                            <img class="img-fluid px-0 border-0" src="{% static 'images/about/pic1.png' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="row px-0">
+                        <div class="col px-0">
+                            <img class="img-fluid px-0 border-0" src="{% static 'images/about/pic2.png' %}" alt="">
+                        </div>
+                        <div class="col px-4 d-flex flex-column justify-content-center bg-white">
+                            <h4>Virtual <b>Conversations</b></h4>
+                            <p>
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et rem asperiores ab saepe
+                                optio
+                                quam, laborum nobis libero quas illo veritatis commodi cumque
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="w-100 container">
+                    <div class="row px-0">
+                        <div class="col px-4 d-flex flex-column justify-content-center text-white bg-dark">
+                            <h4>Modern <b>Education</b></h4>
+                            <p>
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Et rem asperiores ab saepe
+                                optio
+                                quam, laborum nobis libero quas illo veritatis commodi cumque
+                            </p>
+                        </div>
+                        <div class="col px-0">
+                            <img class="img-fluid px-0 border-0" src="{% static 'images/about/pic3.png' %}" alt="">
+                        </div>
+                    </div>
+                    <div class="row px-0">
+                        <div class="col px-0">
+                            <img class="img-fluid px-0 border-0" src="{% static 'images/about/pic4.png' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <img class="img-fluid position-absolute" style="width: 25em; height: 25em; left: -5em; top: -5em;"
+                src="{% static 'images/about/stain1.png' %}" alt="">
+
+            <img class="img-fluid position-absolute" style="width: 25em; height: 25em; right: -5em; bottom: -5em;"
+                src="{% static 'images/about/stain2.png' %}" alt="">
+        </div>
+
+    </div>
+
+</div>
 {% endblock content %}
