@@ -1,6 +1,6 @@
 {% load static %}
 
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark d-flex flex-column">
     <div class="container-fluid">
         <a class="navbar-brand d-flex" href="{% url 'home' %}">
             <img src="{% static 'images/books-logo.png' %}" alt="Logo bookstore" width="50" height="48"
@@ -26,10 +26,10 @@
                 </form>
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'book_list' %}">Books</a>
+                        <a class="nav-link fs-5" href="{% url 'book_list' %}">Books</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'about' %}">About</a>
+                        <a class="nav-link fs-5" href="{% url 'about' %}">About</a>
                     </li>
                     <li class="nav-item dropdown ms-4">
                         <a class="nav-link dropdown-toggle border border-primary bg-primary rounded fw-bold" href="#"
@@ -38,6 +38,11 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg-end">
                             {% if user.is_authenticated %}
+                            <li class="border">
+                                <a class="dropdown-item fw-bold py-2" href="{% url 'account_email' %}">
+                                    Email Configuration
+                                </a>
+                            </li>
                             <li class="bg-danger border border-danger">
                                 <a class="dropdown-item fw-bold py-2" href="{% url 'account_logout' %}">Log Out</a>
                             </li>
@@ -55,4 +60,5 @@
             </div>
         </div>
     </div>
+    {% include './noti_email_confirm.html' %}
 </nav>

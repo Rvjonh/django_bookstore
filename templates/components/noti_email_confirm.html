@@ -1,0 +1,15 @@
+{% for email in user.emailaddress_set.all %}
+
+{% if email.primary and not email.verified %}
+<div class="w-100 bg-warning">
+    <p class="py-2 m-0 text-center fw-bold">
+        We have sent you an email to:
+        <span class="text-primary">{{ email.email }}</span>
+        , to confirm your address.
+        <a href="{% url 'account_email' %}">Resend Email</a>
+        {{ confirmation.email_address.user }}
+    </p>
+</div>
+{% endif %}
+
+{% endfor %}

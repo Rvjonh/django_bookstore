@@ -1,0 +1,124 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block head_title %}
+{% trans "E-mail Addresses" %}
+{% endblock %}
+
+{% block content %}
+<div class="w-100 d-flex flex-column justify-content-start">
+
+    <div class=" w-100 mt-5 d-block mx-auto p-3 d-inline-flex flex-column justify-content-start border border-2"
+        style="max-width: 35em;">
+        <h1 class="text-center">{% trans "E-mail Addresses" %}</h1>
+        {% if user.emailaddress_set.all %}
+
+        <p class="text-center">
+            {% trans 'The following e-mail addresses are associated with your account:' %}
+        </p>
+
+        <form action="{% url 'account_email' %}" class="email_list border p-2" method="post"> {% csrf_token %}
+            {{ crispy }}
+            <fieldset class="blockLabels fs-5">
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-8 p-0 text-center border">Email</div>
+                        <div class="col-2 p-0 text-center border">Primary</div>
+                        <div class="col-2 p-0 text-center border">Verified</div>
+                    </div>
+                </div>
+                {% for emailaddress in user.emailaddress_set.all %}
+                <div class="ctrlHolder border">
+                    <label for="email_radio_{{forloop.counter}}"
+                        class="container {% if emailaddress.primary %}primary_email{%endif%}">
+
+                        <div class="row">
+                            <div class="col-8 p-0 ps-2">
+                                {% if emailaddress.primary %}
+                                <input id="email_radio_{{forloop.counter}}" type="radio" name="email"
+                                    value="{{ emailaddress.email }}" checked="checked" />
+                                {% else %}
+                                <input id="email_radio_{{forloop.counter}}" type="radio" name="email"
+                                    value="{{ emailaddress.email }}" />
+                                {% endif %}
+
+                                {{ emailaddress.email }}
+                            </div>
+
+                            <div class="col-2 text-center">
+                                {% if emailaddress.primary %}
+                                <span class="primary">✅</span>
+                                {% else %}
+                                <span class="primary">❌</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-2 text-center">
+                                {% if emailaddress.verified %}
+                                <span class="verified">✅</span>
+                                {% else %}
+                                <span class="unverified">❌</span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </label>
+                </div>
+                {% endfor %}
+
+                <div class="buttonHolder d-flex justify-content-between mt-4">
+                    <button class="secondaryAction btn btn-success" type="submit" name="action_send">
+                        {% trans 'Re-send Verification' %}
+                    </button>
+                    <button class="secondaryAction btn btn-outline-info" type="submit" name="action_primary">
+                        {% trans 'Make Primary'%}
+                    </button>
+                    <button class="primaryAction btn btn-danger" type="submit" name="action_remove">
+                        {% trans 'Remove' %}
+                    </button>
+                </div>
+
+            </fieldset>
+        </form>
+
+        {% else %}
+        <p>
+            <strong>{% trans 'Warning:'%}</strong>
+            {% trans "You currently do not have any e-mail address set up.
+            You should really add an e-mail address so you can receive notifications, reset your password, etc." %}
+        </p>
+        {% endif %}
+
+        {% if can_add_email %}
+        <h2 class="mt-4">{% trans "Add E-mail Address" %}</h2>
+
+        <form method="post" action="{% url 'account_email' %}" class="add_email">{% csrf_token %}
+            {{ form|crispy }}
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-success fw-bold" name="action_add" type="submit">{% trans "Add Email" %}</button>
+            </div>
+        </form>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock content %}
+
+
+{% block extra_body %}
+<script type="text/javascript">
+    (function () {
+        var message = "{% trans 'Do you really want to remove the selected e-mail address?' %}";
+        var actions = document.getElementsByName('action_remove');
+        if (actions.length) {
+            actions[0].addEventListener("click", function (e) {
+                if (!confirm(message)) {
+                    e.preventDefault();
+                }
+            });
+        }
+    })();
+</script>
+{% endblock extra_body %}
