@@ -19,3 +19,21 @@ body {
     box-shadow: 10px 10px 20px #cbcbcb,
         -10px -10px 20px #ffffff;
 }
+
+.link-hover {
+    opacity: 0.5;
+    transition: .25s ease;
+}
+
+.link-hover img {
+    border: none;
+    background-color: transparent;
+}
+
+.link-hover:hover {
+    opacity: 1;
+}
+
+.link-hover:hover img {
+    background-color: #212529;
+}
