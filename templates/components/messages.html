@@ -1,0 +1,39 @@
+{% load i18n %}
+
+{% if messages %}
+
+<div class="toast-container position-fixed bottom-0" style="left:0.5em; width: 20em; height: auto;">
+    <p>{{ messages.tags }}</p>
+
+    {% for message in messages %}
+    <div class="toast d-inline" data-value="{{ message }}" style="margin-left: -1em;" role="alert" aria-live="assertive"
+        aria-atomic="true">
+        <div class="toast-header bg-{{ message.tags }}">
+            <strong class="me-auto">Bookstore</strong>
+            <button type="button" data-value="{{ message }}" class="btn-close edited-toast-btn" data-bs-dismiss="toast"
+                aria-label="Close"></button>
+        </div>
+        <div class="toast-body bg-{{ message.tags }}-subtle">
+            {% blocktrans %}
+            <p>{{ message }}</p>
+            {% endblocktrans %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<script>
+    window.addEventListener("load", () => {
+        buttons = document.getElementsByClassName("edited-toast-btn");
+        for (button of buttons) {
+            button.addEventListener("click", (e) => {
+                const elements = document.querySelectorAll(`[data-value="${e.target.dataset.value}"]`)
+                for (block of elements) {
+                    if (block.nodeName === 'DIV') {
+                        block.classList.toggle("d-inline");
+                    }
+                }
+            })
+        }
+    })
+</script>
+{% endif %}

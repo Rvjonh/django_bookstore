@@ -39,6 +39,11 @@
                         <ul class="dropdown-menu dropdown-menu-lg-end">
                             {% if user.is_authenticated %}
                             <li class="border">
+                                <a class="dropdown-item fw-bold py-2" href="{% url 'account_change_password' %}">
+                                    Change Password
+                                </a>
+                            </li>
+                            <li class="border">
                                 <a class="dropdown-item fw-bold py-2" href="{% url 'account_email' %}">
                                     Email Configuration
                                 </a>
