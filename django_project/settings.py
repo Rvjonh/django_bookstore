@@ -164,7 +164,6 @@ AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
     "allauth.account.auth_backends.AuthenticationBackend",
 )
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 """ ACCOUNT_SESSION_REMEMBER = True """
 """ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False """
 ACCOUNT_USERNAME_REQUIRED = False
@@ -173,6 +172,13 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 DEFAULT_FROM_EMAIL = "jonhvelasco3@gmail.com"
 
+""" Email Configuration """
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 # Messages Constants to use them in Templates
 MESSAGE_TAGS = {
