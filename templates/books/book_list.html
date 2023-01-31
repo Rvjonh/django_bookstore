@@ -5,9 +5,57 @@ Books
 {% endblock title %}
 
 {% block content %}
-{% for book in book_list %}
-<div>
-    <h2><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h2>
+<div class="mx-auto d-flex flex-column w-100 align-items-center justify-content-start" style="max-width: 80em;">
+
+    <div class="colorin border-bottom border-2 my-2 py-2">
+        <h3 class="fs-1 ps-2">Recent Books Reviews</h3>
+    </div>
+    <div class="d-flex flex-column flex-wrap w-100 align-items-center" style="max-width: 60em;" id="book-container">
+        {% for book in book_list %}
+        <div class="book-item p-0" style="max-width: 10em;">
+            <a class="p-0" href="{{ book.get_absolute_url }}" title="{{ book.title }}"
+                aria-label="book {{ book.title }}">
+                {% if book.cover %}
+                <img class="img-fluid img-thumbnail" src="{{ book.cover.url }}" alt="{{ book.title }}">
+                {% else %}
+                <article class="d-flex justify-content-center align-items-center">
+                    {{ book.title }}
+                </article>
+                {% endif %}
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="d-flex justify-content-center mt-auto pt-4 mb-5">
+        {% include 'components/pagination_block.html' %}
+    </div>
 </div>
-{% endfor %}
+
+<script>
+    window.addEventListener("load", () => {
+        changeSizeContainerBooks();
+    })
+    window.addEventListener("resize", changeSizeContainerBooks)
+    function changeSizeContainerBooks(e) {
+        /* Make responsive books list container */
+        let containerBooks = document.getElementById("book-container");
+        let Books = document.getElementsByClassName("book-item")
+        const containerWidth = containerBooks.offsetWidth
+
+        let columns_available = Math.floor(containerWidth / 160);
+        let num_items_per_column = Math.ceil(Books.length / columns_available)
+
+
+        let newheight = 0
+        for (let i = 0; i < num_items_per_column; i++) {
+            newheight = newheight + Books[i].offsetHeight
+        }
+
+        if (containerWidth < 480) {
+            newheight += 1;
+        }
+        containerBooks.style.height = newheight + "px"
+    }
+</script>
 {% endblock content %}
