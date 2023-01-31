@@ -9,6 +9,7 @@ class BookListView(ListView):
     model = Book
     context_object_name = "book_list"
     template_name = "books/book_list.html"
+    queryset = Book.objects.all().order_by("-date_creation")
 
 
 class BookDetailView(DetailView):
@@ -31,7 +32,7 @@ class SearchResultsListView(ListView):
         if query:
             return Book.objects.filter(
                 Q(title__icontains=query) | Q(author__icontains=query)
-            )
+            ).order_by("-date_creation")
         return []
 
     def get_context_data(self, **kwargs):
