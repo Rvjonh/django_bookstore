@@ -1,24 +1,107 @@
 {% extends "_base.html" %}
+{% load crispy_forms_tags %}
+{% load random_rgba_color %}
 
 {% block title %}
 {{ book.title }}
 {% endblock title %}
 
 {% block content %}
-<div class="book-detail">
-    {% if book.cover %}
-    <img class="bookcover" src="{{ book.cover.url}}" alt="{{ book.title }}">
-    {% endif %}
-    <h2><a href="">{{ book.title }}</a></h2>
-    <p>Author: {{ book.author }}</p>
-    <p>Price: {{ book.price }}</p>
-    <div>
-        <h3>Reviews</h3>
-        <ul>
-            {% for review in book.reviews.all %}
-            <li>{{ review.review }} ({{ review.author }})</li>
+<div class="mx-auto d-flex flex-column w-100 align-items-center justify-content-start" style="max-width: 80em;">
+
+    <div class="my-3 container d-flex justify-content-start" aria-label="breadcrumb">
+        <ol class="m-0 breadcrumb">
+            <li class="p-0 breadcrumb-item"><a href="{% url 'book_list' %}">Recent Books</a></li>
+            <li class="p-0 breadcrumb-item active" aria-current="page">{{ book.title }}</li>
+        </ol>
+    </div>
+
+    <div class="w-100 d-flex flex-column flex-sm-row border" style="max-width: 50em;">
+
+        {% if book.cover %}
+        <div>
+            <!-- Button trigger modal -->
+            <picture class="d-block w-100 p-1 bg-transparent">
+                <img type="button" class="d-block mx-auto w-100 img-fluid img-thumbnail" style="max-width: 20em;"
+                    src="{{ book.cover.url}}" alt="{{ book.title }}" data-bs-toggle="modal"
+                    data-bs-target="#imageModal">
+            </picture>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content bg-dark">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="btn-close bg-white" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <picture class="w-100 p-1">
+                        <img class="d-block mx-auto img-fluit img-thumbnail" src="{{ book.cover.url}}" alt="{{ book.title }}">
+                    </picture>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <article class="border w-100 d-flex justify-content-center align-items-center fs-5 fw-bold text-center "
+            style="min-height: 20em; background-color: {% random_rgba_color 0.5 %} ;">
+            {{ book.title|truncatechars:35 }}
+        </article>
+        {% endif %}
+
+        <div class="flex flex-column p-3">
+            <h2>{{ book.title|title }}</h2>
+            <div class="d-flex pb-2">Author:
+                <form class="d-flex w-100" style="max-width: 30em;" action="{% url 'search_results' %}" method="get">
+                    <input type="hidden" minlength="1" name="q" value="{{ book.author }}"
+                        placeholder="Search by title or author" aria-label="Search" required>
+                    <input class="border-0 link-secondary bg-transparent text-decoration-underline text-primary"
+                        style="outline:none;" type="submit" value="{{ book.author }}" />
+                </form>
+            </div>
+            <p class="p-0">Price: {{ book.price }}</p>
+            <p class="p-0">Creation: {{ book.date_creation|date:"d-m-Y" }} {{ book.date_creation|time:"h:iA" }}</p>
+        </div>
+    </div>
+
+    <div class="my-2 w-100 d-flex flex-column border" style="max-width: 40em;">
+        <h3>✉ Reviews {{ book.reviews.all.count }}</h3>
+        <div class="border m-2">
+            {% if user.is_authenticated %}
+            
+            <form class="m-2" method="post">{% csrf_token %}
+                {{ form|crispy}}
+                <div class="d-flex justify-content-between">
+                    <p class="p-0 m-0 fw-bold">As: <span class="text-primary">{{ user|title }}</span></p>
+                    <button class="btn btn-success fw-bold" type="submit">Review</button>
+                </div>
+            </form>
+            {% else %}
+            <div class="w-100 d-flex flex-column align-items-center">
+                <h4>You need an account</h4>
+                <div>
+                    <a class="btn btn-success" href=" {% url 'account_login' %}?next={{request.path}}">Log in</a>
+                    or
+                    <a class="btn btn-danger" href="{% url 'account_signup' %}?next={{request.path}}">Sign Up</a>
+                </div>
+                <p>And start reviewing</p>
+            </div>
+            {% endif %}
+        </div>
+        <ul class="p-0 p-1">
+            {% for review in page_obj.object_list %}
+            <div class="border border-2 rounded-2 d-flex flex-column p-2 my-2">
+                <h6 class="d-flex">
+                    <span class="fw-bold">{{ review.author|title }}:</span>
+                    <span class="ms-auto">{{ review.date|date:"d-m-Y" }}</span>
+                </h6>
+                <p>{{ review }}</p>
+            </div>
             {% endfor %}
         </ul>
+        <div class="d-flex justify-content-center mt-auto pt-4 mb-5">
+            {% include 'components/pagination_block.html' %}
+        </div>
     </div>
 </div>
 {% endblock content %}

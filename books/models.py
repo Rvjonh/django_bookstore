@@ -26,10 +26,17 @@ class Review(models.Model):
         related_name="reviews",
     )
     review = models.CharField(max_length=255)
+    date = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
     )
 
+    class Meta:
+        ordering = ["-date"]
+
     def __str__(self):
         return self.review
+
+    def get_absolute_url(self):
+        return reverse("book_detail")
