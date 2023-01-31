@@ -1,5 +1,6 @@
 {% extends '_base.html' %}
 {% load static %}
+{% load random_rgba_color %}
 
 {% block title %}
 Bookstore✨
@@ -60,18 +61,19 @@ Bookstore✨
 
     <section class="my-5 container border p-4">
         <h2>Latest Books✨</h2>
-        <div class="d-flex flex-wrap justify-content-around align-items-start">
+        <div class="d-flex flex-row-reverse flex-wrap justify-content-around align-items-start">
             {% for book in last_5_books %}
-            <picture class="w-20" title="{{ book.title }}">
-                {% if book.cover.url %}
-                <img class="img img-thumbnail" src="{{ book.cover.url }}" alt="{{ book.title }}" width="180"
-                    height="160">
+            <a class="w-20 p-0" href="{{ book.get_absolute_url }}" title="{{ book.title }}"
+                aria-label="book {{ book.title }}">
+                {% if book.cover %}
+                <img class="img-fluid img-thumbnail" src="{{ book.cover.url }}" alt="{{ book.title }}" width="180" height="160">
                 {% else %}
-                <div class="w-100 bg-dark">
-                    <p class="text-white">{{ book.title }}</p>
-                </div>
+                <article class="border w-100 d-flex justify-content-center align-items-center fs-5 fw-bold text-center "
+                        style="max-width:10em; min-height: 10em; background-color: {% random_rgba_color 0.5 %} ;">
+                        {{ book.title|truncatechars:35 }}
+                </article>
                 {% endif %}
-            </picture>
+            </a>
             {% endfor %}
         </div>
     </section>

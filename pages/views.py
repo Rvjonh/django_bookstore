@@ -12,7 +12,7 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        last_5_books = Book.objects.filter().order_by("-id")[:5][::-1]
+        last_5_books = Book.objects.all().order_by("-date_creation")[:5][::-1]
         context["last_5_books"] = last_5_books
         return context
 
