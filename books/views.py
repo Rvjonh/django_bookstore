@@ -21,12 +21,20 @@ class BookDetailView(DetailView):
 
 
 class SearchResultsListView(ListView):
+    paginate_by = 10
     model = Book
     context_object_name = "book_list"
     template_name = "books/search_results.html"
 
     def get_queryset(self):
-        query = self.request.GET.get("q")
-        return Book.objects.filter(
-            Q(title__icontains=query) | Q(author__icontains=query)
-        )
+        query = self.request.GET.get("q", None)
+        if query:
+            return Book.objects.filter(
+                Q(title__icontains=query) | Q(author__icontains=query)
+            )
+        return []
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["query"] = self.request.GET.get("q")
+        return context
