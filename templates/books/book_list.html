@@ -1,4 +1,5 @@
 {% extends "_base.html" %}
+{% load random_rgba_color %}
 
 {% block title %}
 Books
@@ -18,8 +19,9 @@ Books
                 {% if book.cover %}
                 <img class="img-fluid img-thumbnail" src="{{ book.cover.url }}" alt="{{ book.title }}">
                 {% else %}
-                <article class="d-flex justify-content-center align-items-center">
-                    {{ book.title }}
+                <article class="border w-100 d-flex justify-content-center align-items-center fs-5 fw-bold text-center "
+                        style="min-height: 10em; background-color: {% random_rgba_color 0.5 %} ;">
+                        {{ book.title|truncatechars:35 }}
                 </article>
                 {% endif %}
             </a>
