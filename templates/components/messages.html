@@ -2,11 +2,11 @@
 
 {% if messages %}
 
-<div class="toast-container position-fixed bottom-0" style="left:0.5em; width: 20em; height: auto;">
+<div id="myNotificationPanel" class="toast-container position-fixed bottom-0" style="left:0.5em; width: 20em; height: auto;">
     <p>{{ messages.tags }}</p>
 
     {% for message in messages %}
-    <div class="toast d-inline" data-value="{{ message }}" style="margin-left: -1em;" role="alert" aria-live="assertive"
+    <div class="toast d-inline position-relative" data-value="{{ message }}" style="margin-left: -1em;" role="alert" aria-live="assertive"
         aria-atomic="true">
         <div class="toast-header bg-{{ message.tags }}">
             <strong class="me-auto">Bookstore</strong>
@@ -18,6 +18,7 @@
             <p>{{ message }}</p>
             {% endblocktrans %}
         </div>
+        <div class="toast-bar"></div>
     </div>
     {% endfor %}
 </div>
@@ -30,10 +31,63 @@
                 for (block of elements) {
                     if (block.nodeName === 'DIV') {
                         block.classList.toggle("d-inline");
+                        block.remove()
                     }
                 }
             })
         }
+        hideNotificationsAfterTime();
     })
+    function hideNotificationsAfterTime(){
+        /*
+        Starts a cycle to delete every notification, the algorithm acts like a reversed stack
+        which will remove the element at bottom until reach the element at the top.
+        in every cycle starts a animation 'fade-animation-notification' which is executed and at the end of the cycle the element is unmuted ... and removed from the stack (the panel)
+
+        the Var: time sets the seconds that a element will be display,
+        don't forget to asycn with the animations in static/css/base.css
+        where there the animations ...
+        */
+        let htmlCollection = document.getElementsByClassName("toast");
+        let notifications = Array.from( htmlCollection ).reverse();
+        let itemOnTurn = notifications[0];
+        let time = 5;
+        let timeout_onturn = null;
+
+        let panel = document.getElementById("myNotificationPanel");
+
+        panel.addEventListener("mouseenter", stopAnimation)
+        panel.addEventListener("mouseleave", startAnimation)
+
+        startAnimation();
+
+        function startAnimation(){
+            try{
+                itemOnTurn.classList.add("fade-animation-notification")
+                itemOnTurn.style.animationDuration = `${time}s`;
+            }catch{}
+            timeout_onturn = setTimeout(() => {
+                itemOnTurn.classList.toggle("d-inline")
+                itemOnTurn.remove()
+                itemOnTurn = getItemOnTurn()
+                startAnimation();
+            }, time*1000);
+        }
+
+        function stopAnimation(){
+            try{
+            itemOnTurn.classList.remove("fade-animation-notification")
+            }catch{}
+            itemOnTurn.style.animationDuration = `0s`;
+            clearTimeout(timeout_onturn)
+        }
+
+        function getItemOnTurn(){
+            let htmlCollection = document.getElementsByClassName("toast");
+            let notifications = Array.from( htmlCollection ).reverse();
+            return notifications[0]
+        }
+
+    }
 </script>
 {% endif %}
