@@ -112,7 +112,7 @@ class MyBooksView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         user = self.request.user
-        return Book.objects.filter(publisher=user)
+        return Book.objects.filter(publisher=user).order_by("-date_creation")
 
     def dispatch(self, request, *args, **kwargs):
         """Will send a notification in case user is not logged"""
