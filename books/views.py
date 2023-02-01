@@ -2,14 +2,14 @@ from django.views.generic import ListView, DetailView, FormView
 from django.views import View
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.db.models import Q
 
 from django.core.paginator import Paginator
 from .models import Book, Review
 
-from .forms import ReviewForm
+from .forms import ReviewForm, BookForm
 
 
 class BookListView(ListView):
@@ -119,3 +119,29 @@ class MyBooksView(LoginRequiredMixin, ListView):
         if not request.user.is_authenticated:
             messages.error(self.request, "You need to log in")
         return super().dispatch(request, *args, **kwargs)
+
+
+class NewBookView(LoginRequiredMixin, FormView):
+    form_class = BookForm
+    template_name = "books/book_new.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        """Will send a notification in case user is not logged"""
+        if not request.user.is_authenticated:
+            messages.error(self.request, "You need to log in to published a book")
+        return super().dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        book = form.save(commit=False)
+        book.publisher = self.request.user
+        book.save()
+        self.success_url = reverse("book_detail", kwargs={"pk": book.id})
+
+        if form.is_valid():
+            messages.success(self.request, "Book Published Correctly")
+
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Error Publishing Book")
+        return super().form_invalid(form)

@@ -1,0 +1,36 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+New Book
+{% endblock title %}
+
+{% block content %}
+<div class="w-100 d-flex flex-column justify-content-start">
+
+    <div class="w-100 mt-5 d-block mx-auto p-4 d-inline-flex flex-column justify-content-start border border-2" style="max-width: 35em;">
+        <picture class="w-100" id="pin">
+            <img id="preview_cover" class="d-block img-fluid mx-auto" src="{% static 'images/books-logo.png' %}" alt="bookstore logo" style="max-width:10em">
+        </picture>
+        <h2 class="text-center">Publish A Book</h2>
+        <form enctype="multipart/form-data" method="post">{% csrf_token %}
+            {{ form|crispy }}
+            <div class="d-flex justify-content-between">
+                <a class="btn btn-danger fw-bold" href="{% url 'book_list' %}">Cancel</a>
+                <button class="btn btn-success fw-bold" type="submit">Publish It</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    window.addEventListener("load",()=>{
+        document.getElementById("id_cover").addEventListener("change", showImg)
+    })
+    function showImg(e){
+        let preview_cover = document.getElementById("preview_cover");
+        let img = e.target.files[0]
+        preview_cover.src = URL.createObjectURL(img);
+    }
+</script>
+{% endblock content %}
