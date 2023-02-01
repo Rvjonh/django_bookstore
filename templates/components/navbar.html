@@ -31,13 +31,28 @@
                     <li class="nav-item">
                         <a class="nav-link fs-5" href="{% url 'about' %}">About</a>
                     </li>
-                    <li class="nav-item dropdown ms-4">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fs-5" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            New Posts
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg-end p-0 text-center">
+                            <li><a class="dropdown-item rounded-top p-2" href="#">My books</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item rounded-bottom bg-success bg-gradient p-2 fw-bold" href="#">Add Book</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle border border-primary bg-primary rounded fw-bold" href="#"
                             role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             👪Account
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg-end">
                             {% if user.is_authenticated %}
+                            <li class="border">
+                                <a class="dropdown-item fw-bold py-2" href="#">
+                                    Username
+                                </a>
+                            </li>
                             <li class="border">
                                 <a class="dropdown-item fw-bold py-2" href="{% url 'account_change_password' %}">
                                     Change Password
