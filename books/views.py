@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView, FormView
 from django.views import View
 from django.views.generic.detail import SingleObjectMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.contrib import messages
 from django.db.models import Q
@@ -101,3 +102,20 @@ class SearchResultsListView(ListView):
         context = super().get_context_data(**kwargs)
         context["query"] = self.request.GET.get("q")
         return context
+
+
+class MyBooksView(LoginRequiredMixin, ListView):
+    paginate_by = 10
+    model = Book
+    context_object_name = "my_books"
+    template_name = "books/book_account.html"
+
+    def get_queryset(self):
+        user = self.request.user
+        return Book.objects.filter(publisher=user)
+
+    def dispatch(self, request, *args, **kwargs):
+        """Will send a notification in case user is not logged"""
+        if not request.user.is_authenticated:
+            messages.error(self.request, "You need to log in")
+        return super().dispatch(request, *args, **kwargs)

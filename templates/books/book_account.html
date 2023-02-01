@@ -1,0 +1,68 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load random_rgba_color %}
+
+{% block title %}
+Search
+{% endblock title %}
+
+{% block content %}
+<div class="mx-auto d-flex flex-column w-100 align-items-center justify-content-start" style="max-width: 80em;">
+
+    <div class="w-100 my-2 py-2 d-flex flex-column align-items-center">
+        <h3 class="text-nowrap d-flex border-bottom border-2 p-1 px-3 fs-1 m-0">
+            My Published Books
+        </h3>
+        <p class="m-0 p-0 fs-5" >Publisher: {{ user|title }}</p>
+    </div>
+
+    {% if not my_books %}
+    <div class="container-sm d-flex flex-column justify-content-start align-items-center">
+        <picture>
+            <img class="img-fluid img-thumbnail border-0" src="{% static 'images/books-logo.png' %}"
+                alt="bookstore logo">
+        </picture>
+        <h2>No Results Found</h2>
+    </div>
+    {% else %}
+
+    <div class="container" style="max-width: 50em;">
+        {% for book in my_books %}
+        <article class="row w-100">
+            <header class="col col-4 col-md-3 ">
+                <a href="{{ book.get_absolute_url }}" class="text-decoration-none">
+                    {% if book.cover %}
+                    <img class="img-thumbnail" src="{{ book.cover.url }}" alt="book {{ book.title }}">
+                    {% else %}
+                    <div class="border w-100 d-flex justify-content-center align-items-center fs-5 fw-bold text-center "
+                        style="min-height: 10em; background-color: {% random_rgba_color 0.5 %} ;">
+                        {{ book.title|truncatechars:35 }}
+                    </div>
+                    {% endif %}
+                </a>
+            </header>
+            <div class="col col-8 col-md-9 d-flex flex-column">
+                <h3><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h3>
+                <div class="d-flex">Author:
+                    <form class="d-flex w-100" style="max-width: 30em;" action="{% url 'search_results' %}" method="get">
+                        <input type="hidden" minlength="1" name="q" value="{{ book.author }}"
+                            placeholder="Search by title or author" aria-label="Search" required>
+                        <input class="border-0 link-secondary bg-transparent text-decoration-underline text-primary" style="outline:none;" type="submit" value="{{ book.author }}" />
+                    </form>
+                </div>
+                <p data-color="">Price: $ {{ book.price }}</p>
+                <footer class="w-100 mt-auto mb-3 d-flex justify-content-between">
+                    <p class="m-0 p-0 fw-bold">Reviews: {{ book.reviews.all.count }}</p>
+                </footer>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+
+    {% endif %}
+
+    <div class="d-flex justify-content-center mt-auto pt-4 mb-5">
+        {% include 'components/pagination_block.html' %}
+    </div>
+</div>
+{% endblock content %}
