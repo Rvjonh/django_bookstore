@@ -1,4 +1,9 @@
 
+
+# Google Drive Storage Json API
+
+*.json
+
 media/
 
 .env

@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "allauth",
     "allauth.account",
+    "gdstorage",
     # Local
     "accounts.apps.AccountsConfig",
     "pages.apps.PagesConfig",
@@ -141,6 +142,11 @@ STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# Google Drive Storage Settings
+
+GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE = os.getenv("GOOGLE_DRIVE_STORAGE_JSON_KEY_FILE")
+GOOGLE_DRIVE_STORAGE_MEDIA_ROOT = "bookstore/"
 
 # Forms from Crispy/Bootstrap
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

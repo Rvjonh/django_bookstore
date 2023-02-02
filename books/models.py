@@ -2,6 +2,10 @@ import uuid
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth import get_user_model
+from gdstorage.storage import GoogleDriveStorage
+
+# Define Google Drive Storage
+gd_storage = GoogleDriveStorage()
 
 # Create your models here.
 class Book(models.Model):
@@ -9,7 +13,9 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=200)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    cover = models.ImageField(upload_to="covers/", blank=True)
+    cover = models.ImageField(
+        upload_to="BookstoreCovers/", blank=True, storage=gd_storage
+    )
     date_creation = models.DateTimeField(auto_now_add=True)
     publisher = models.ForeignKey(
         get_user_model(),
