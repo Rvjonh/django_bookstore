@@ -1,0 +1,30 @@
+{% extends "_base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+User Profile
+{% endblock title %}
+
+{% block content %}
+<div class="w-100 d-flex flex-column justify-content-start">
+
+    <div class="w-100 mt-5 d-block mx-auto p-4 d-inline-flex flex-column justify-content-start border border-2"
+        style="max-width: 35em;">
+        <picture class="w-100">
+            <img class="d-block img-fluid mx-auto" src="{% static 'images/books-logo.png' %}" alt="bookstore logo">
+        </picture>
+        <h2 class="text-center">Profile - {{ user|title }}</h2>
+        <form method="post">{% csrf_token %}
+            {{ form|crispy }}
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-success fw-bold" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+    <div class="w-100 d-block mx-auto d-flex justify-content-between p-4" style="max-width: 35em;">
+        <a class="link" href="{% url 'book_list' %}">⬅ Back to Book 📚</a>
+    </div>
+
+</div>
+{% endblock content %}
