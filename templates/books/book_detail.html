@@ -67,7 +67,20 @@
             </div>
         </div>
     </div>
-
+    {% if user == book.publisher %}
+    <div class="w-100 d-flex justify-content-end" style="max-width: 50em;">
+        <div class="ms-auto btn-group">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                🔩Configuration
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item btn btn-outline-success" href="{% url 'book_update' book.pk %}">Update</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item btn btn-outline-danger" href="{% url 'book_delete' book.pk %}">Delete</a></li>
+            </ul>
+        </div>
+    </div>
+    {% endif %}
     <div class="my-2 w-100 d-flex flex-column border" style="max-width: 40em;">
         <h3>✉ Reviews {{ book.reviews.all.count }}</h3>
         <div class="border m-2">
