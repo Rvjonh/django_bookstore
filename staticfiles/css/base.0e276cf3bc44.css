@@ -8,7 +8,7 @@ body {
 .bookstore-landscape {
     width: 100%;
     min-height: 20em;
-    background-image: url('/static/images/bookstore-landscape.jpg');
+    background-image: url("/static/images/bookstore-landscape.a7f09350e882.jpg");
     background-repeat: no-repeat;
     background-position: center;
 }
