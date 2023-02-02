@@ -16,13 +16,13 @@
         </ol>
     </div>
 
-    <div class="w-100 d-flex flex-column flex-sm-row border" style="max-width: 50em;">
+    <div class="w-100 d-flex flex-column justify-content-center align-items-center align-items-sm-start flex-sm-row border" style="max-width: 50em;">
 
         {% if book.cover %}
         <div>
             <!-- Button trigger modal -->
             <picture class="d-block w-100 p-1 bg-transparent">
-                <img type="button" class="d-block mx-auto w-100 img-fluid img-thumbnail" style="max-width: 20em;"
+                <img type="button" class="d-block mx-auto w-100 img-fluid img-thumbnail" style="max-width: 30em;"
                     src="{{ book.cover.url}}" alt="{{ book.title }}" data-bs-toggle="modal"
                     data-bs-target="#imageModal">
             </picture>
@@ -43,13 +43,12 @@
             </div>
         </div>
         {% else %}
-        <article class="border w-100 d-flex justify-content-center align-items-center fs-5 fw-bold text-center "
-            style="min-height: 20em; background-color: {% random_rgba_color 0.5 %} ;">
+        <article class="border w-100 d-flex justify-content-center align-items-center fs-5 fw-bold text-center " style="max-width:15em; min-height: 20em; background-color: {% random_rgba_color 0.5 %} ;">
             {{ book.title|truncatechars:35 }}
         </article>
         {% endif %}
 
-        <div class="flex flex-column p-3">
+        <div class="d-flex w-100 h-100 justify-content-center flex-column p-3">
             <h2>{{ book.title|title }}</h2>
             <div class="d-flex pb-2">Author:
                 <form class="d-flex w-100" style="max-width: 30em;" action="{% url 'search_results' %}" method="get">
@@ -59,8 +58,13 @@
                         style="outline:none;" type="submit" value="{{ book.author }}" />
                 </form>
             </div>
-            <p class="p-0">Price: {{ book.price }}</p>
-            <p class="p-0">Creation: {{ book.date_creation|date:"d-m-Y" }} {{ book.date_creation|time:"h:iA" }}</p>
+            <p class="p-0">Price: ${{ book.price }}</p>
+            <p class="p-0">
+                Creation: {{ book.date_creation|date:"d-m-Y" }} {{ book.date_creation|time:"h:iA" }}
+            </p>
+            <div class="w-100 mt-auto d-flex justify-content-end">
+                <p class="m-0 p-0">Publisher: {{ book.publisher|default:"Unknown"|title }}</p>
+            </div>
         </div>
     </div>
 
