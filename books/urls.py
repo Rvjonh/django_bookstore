@@ -7,6 +7,7 @@ from .views import (
     MyBooksView,
     NewBookView,
     DeleteBookView,
+    UpdateBookView,
 )
 
 urlpatterns = [
@@ -16,4 +17,5 @@ urlpatterns = [
     path("account/", MyBooksView.as_view(), name="book_account"),
     path("new/", NewBookView.as_view(), name="book_new"),
     path("delete/<uuid:pk>/", DeleteBookView.as_view(), name="book_delete"),
+    path("update/<uuid:pk>/", UpdateBookView.as_view(), name="book_update"),
 ]
