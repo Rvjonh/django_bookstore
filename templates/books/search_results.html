@@ -41,7 +41,7 @@ Search
                     {% endif %}
                 </a>
             </div>
-            <div class="col col-8 col-md-9">
+            <div class="col col-8 col-md-9 d-flex flex-column">
                 <h3><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></h3>
                 <div class="d-flex">Author:
                     <form class="d-flex w-100" style="max-width: 30em;" action="{% url 'search_results' %}" method="get">
@@ -51,7 +51,10 @@ Search
                     </form>
                 </div>
                 <p data-color="">Price: $ {{ book.price }}</p>
-                <p></p>
+                <footer class="w-100 mt-auto mb-3 d-flex justify-content-between">
+                    <p class="m-0 p-0 fw-bold">Reviews: {{ book.reviews.all.count }}</p>
+                    <p class="m-0 p-0 fw-bold">Publisher: {{ book.publisher|default:"Unknow"|title }}</p>
+                </footer>
             </div>
         </div>
         {% endfor %}
