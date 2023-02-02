@@ -19,12 +19,12 @@ Update Book {{ book.title }}
                 {% endif %}
             >
         </picture>
-        <h2 class="text-center">Publish A Book</h2>
+        <h2 class="text-center">Update A Book</h2>
         <form enctype="multipart/form-data" method="post">{% csrf_token %}
             {{ form|crispy }}
             <div class="d-flex justify-content-between">
                 <a class="btn btn-danger fw-bold" href="{{ book.get_absolute_url }}">Cancel</a>
-                <button class="btn btn-success fw-bold" type="submit">Publish It</button>
+                <button class="btn btn-success fw-bold" type="submit">Update</button>
             </div>
         </form>
     </div>

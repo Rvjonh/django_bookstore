@@ -22,7 +22,6 @@ class UpdateProfileView(LoginRequiredMixin, FormView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_initial(self):
-        print(dir(self.request.user))
         initial = super(UpdateProfileView, self).get_initial()
         if self.request.user.is_authenticated:
             initial.update({"username": self.request.user})
