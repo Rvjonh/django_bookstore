@@ -1,7 +1,8 @@
-from django.views.generic import ListView, DetailView, FormView
+from django.views.generic import ListView, DetailView, FormView, DeleteView
 from django.views import View
 from django.views.generic.detail import SingleObjectMixin
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.contrib import messages
 from django.db.models import Q
@@ -145,3 +146,34 @@ class NewBookView(LoginRequiredMixin, FormView):
     def form_invalid(self, form):
         messages.error(self.request, "Error Publishing Book")
         return super().form_invalid(form)
+
+
+class DeleteBookView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Book
+    template_name = "books/book_confirm_delete.html"
+    success_url = reverse_lazy("book_account")
+
+    def dispatch(self, request, *args, **kwargs):
+        """Will send a notification in case user is not logged"""
+        if not request.user.is_authenticated:
+            messages.error(
+                self.request,
+                "You need to log in to delete a book, and be its publisher",
+            )
+        return super().dispatch(request, *args, **kwargs)
+
+    def test_func(self):
+        """Can delete if user is who published the book"""
+        return self.request.user == self.get_object().publisher
+
+    def handle_no_permission(self):
+        messages.error(self.request, "You cannot delete other's books")
+        return redirect(self.get_object().get_absolute_url())
+
+    def get(self, request, *args, **kwargs):
+        messages.warning(self.request, "Be Carefull You're going to delete this book")
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        messages.info(self.request, f"Book '{self.get_object()}' Delete")
+        return super().post(request, *args, **kwargs)

@@ -6,6 +6,7 @@ from .views import (
     SearchResultsListView,
     MyBooksView,
     NewBookView,
+    DeleteBookView,
 )
 
 urlpatterns = [
@@ -14,4 +15,5 @@ urlpatterns = [
     path("search/", SearchResultsListView.as_view(), name="search_results"),
     path("account/", MyBooksView.as_view(), name="book_account"),
     path("new/", NewBookView.as_view(), name="book_new"),
+    path("delete/<uuid:pk>/", DeleteBookView.as_view(), name="book_delete"),
 ]
