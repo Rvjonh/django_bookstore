@@ -1,13 +1,106 @@
 body {
-    min-height: 75rem;
-    padding-top: 4.5rem;
+    min-height: 100vh;
+    margin-top: 5em;
+    display: flex;
+    flex-direction: column;
 }
 
-h1 {
-    color: red;
+.bookstore-landscape {
+    width: 100%;
+    min-height: 20em;
+    background-image: url('/static/images/bookstore-landscape.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-img.bookcover {
-    height: 300px;
-    width: auto;
+.neumorphism-border {
+    border-radius: 9px;
+    background: #f2f2f2;
+    box-shadow: 10px 10px 20px #cbcbcb,
+        -10px -10px 20px #ffffff;
+}
+
+.link-hover {
+    opacity: 0.5;
+    transition: .25s ease;
+}
+
+.link-hover img {
+    border: none;
+    background-color: transparent;
+}
+
+.link-hover:hover {
+    opacity: 1;
+}
+
+.link-hover:hover img {
+    background-color: #212529;
+}
+
+div.fade-animation-notification {
+    animation: fade-notification cubic-bezier(0.53, 0.32, 0.42, 0.69);
+}
+
+div.fade-animation-notification * {
+    animation: fade-notification cubic-bezier(0.53, 0.32, 0.42, 0.69);
+}
+
+.toast-bar {
+    width: 100%;
+    height: 0.5em;
+    background-color: transparent;
+    position: relative;
+}
+
+div.fade-animation-notification .toast-bar::before {
+    content: " ";
+    position: absolute;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: rgb(0, 0, 0);
+    animation: toast-bar 5s ease;
+}
+
+@keyframes fade-notification {
+    from {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes toast-bar {
+    from {
+        width: 0%;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+
+div.book-animation div.book-item.book-cover {
+    opacity: 0;
+    animation: show-book 1s ease forwards !important;
+}
+
+@keyframes show-book {
+    from {
+        transform: translateY(20em) scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0em) scale(1);
+        opacity: 1;
+    }
 }
