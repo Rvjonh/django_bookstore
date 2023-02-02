@@ -13,11 +13,11 @@ Books
     </div>
     <div class="d-flex flex-column flex-wrap w-100 align-items-center" style="max-width: 60em;" id="book-container">
         {% for book in book_list %}
-        <div class="book-item p-0" style="max-width: 10em;">
-            <a class="p-0" href="{{ book.get_absolute_url }}" title="{{ book.title }}"
+        <div id="book-cover" class="w-100 p-0 book-item book-cover" style="max-width: 10em;">
+            <a class="w-100 p-0" href="{{ book.get_absolute_url }}" title="{{ book.title }}"
                 aria-label="book {{ book.title }}">
                 {% if book.cover %}
-                <img class="img-fluid img-thumbnail" src="{{ book.cover.url }}" alt="{{ book.title }}">
+                <img class="d-block mx-auto img-fluid img-thumbnail" src="{{ book.cover.url }}" alt="{{ book.title }}">
                 {% else %}
                 <article class="border w-100 d-flex justify-content-center align-items-center fs-5 fw-bold text-center "
                         style="min-height: 10em; background-color: {% random_rgba_color 0.5 %} ;">
@@ -48,16 +48,24 @@ Books
         let columns_available = Math.floor(containerWidth / 160);
         let num_items_per_column = Math.ceil(Books.length / columns_available)
 
-
-        let newheight = 0
-        for (let i = 0; i < num_items_per_column; i++) {
-            newheight = newheight + Books[i].offsetHeight
+        let maxHeight = 0
+        let diff = 0
+        let actualHeight = 0
+        for(let i=0; i<columns_available; i++){
+            actualHeight = 0
+            for (let i = diff; i < num_items_per_column+diff; i++) {
+                try{
+                    actualHeight = actualHeight + Books[i].offsetHeight
+                }catch{}
+            }
+            if(maxHeight < actualHeight){
+                maxHeight = actualHeight
+            }
+            diff += num_items_per_column;
         }
-
-        if (containerWidth < 480) {
-            newheight += 1;
-        }
-        containerBooks.style.height = newheight + "px"
+        containerBooks.style.height = maxHeight + "px"
+        containerBooks.classList.remove("book-animation")
+        containerBooks.classList.add("book-animation")
     }
 </script>
 {% endblock content %}
